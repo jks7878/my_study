@@ -17,7 +17,9 @@ function show() {
   return this.data;
 }
 
-async function insert() {
+let depth = 0;
+
+function insert() {
   var data = parseInt(document.getElementsByClassName('inputNum')[0].value);
 
   var n = new Node(data, null, null);
@@ -49,27 +51,25 @@ async function insert() {
 
   let leftDepth = 0;
   if(nums.root.left) { 
-    leftDepth = await dfs(nums.root.left, 0);
+    dfs(nums.root.left);
+    leftDepth = depth;
     console.log(leftDepth);
   }
+  depth = 0;
   let rightDepth = 0;
   if(nums.root.right) {
-    rightDepth = await dfs(nums.root.right, 0);
+    dfs(nums.root.right);
+    rightDepth = depth;
     console.log(rightDepth);
   }
 }
 
-async function dfs(node, depth) {
-  if(!node) {
-    depth++;
-    console.log(depth);
-    dfs(node.left, depth);
-    if(node.right) {
-      dfs(node.right, depth);
-    }
-  }
+function dfs(node) {
+  if(!node) return;
 
-  return depth;
+  depth++;
+  dfs(node.left);
+  dfs(node.right);
 }
  
 function inOrder(node) {
