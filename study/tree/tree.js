@@ -47,7 +47,7 @@ function insert() {
       }
     }
   }
-  console.log(n);
+  console.log(nums.root);
 
   let leftDepth = 0;
   if(nums.root.left) { 
@@ -69,7 +69,10 @@ function dfs(node) {
 
   depth++;
   dfs(node.left);
-  dfs(node.right);
+  if(node.right) {
+    depth--;
+    dfs(node.right);
+  }
 }
  
 function inOrder(node) {
