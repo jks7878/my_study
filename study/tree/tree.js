@@ -47,32 +47,28 @@ function insert() {
       }
     }
   }
-  console.log(nums.root);
+  // console.log(nums.root);
+  // dfs(nums.root);
+  dfs(nums.root.left);
+  let leftDepth = depth;
+  console.log(leftDepth);
 
-  let leftDepth = 0;
-  if(nums.root.left) { 
-    dfs(nums.root.left);
-    leftDepth = depth;
-    console.log(leftDepth);
-  }
   depth = 0;
-  let rightDepth = 0;
-  if(nums.root.right) {
-    dfs(nums.root.right);
-    rightDepth = depth;
-    console.log(rightDepth);
-  }
+
+  dfs(nums.root.right);
+  let rightDepth = depth;
+  console.log(rightDepth);
+
+  depth = 0;
 }
 
 function dfs(node) {
   if(!node) return;
-
+  console.log(node);
   depth++;
   dfs(node.left);
-  if(node.right) {
-    depth--;
-    dfs(node.right);
-  }
+  if(node.left && node.right) depth--;
+  dfs(node.right);
 }
  
 function inOrder(node) {
