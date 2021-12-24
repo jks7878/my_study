@@ -6,11 +6,10 @@ function BST() {
 
 var nums = new BST();
 
-function Node(data, left, right, bf) {
+function Node(data, left, right) {
   this.data = data;
   this.left = left;
   this.right = right;
-  this.bf = bf;
   this.show = show;
 }
 
@@ -23,7 +22,7 @@ let depth = 0;
 function insert() {
   var data = parseInt(document.getElementsByClassName('inputNum')[0].value);
 
-  var n = new Node(data, null, null, null);
+  var n = new Node(data, null, null);
 
   if(nums.root == null) {
     nums.root = n;
@@ -48,11 +47,9 @@ function insert() {
       }
     }
   }
-  console.log(nums);
-
-  // let bf = diff(nums.root);
-  // console.log(bf);
+  
   balance(nums.root);
+  console.log(nums.root);
 }
 
 // 깊이 탐색
@@ -87,36 +84,60 @@ function balance(node) {
 
   if(diff > 1) { // 왼쪽 불균형
     if(getDiff(node.left) > 0) {
-      LLrotation();
+      LLrotation(node);
     }else {
-      LRrotation();
+      LRrotation(node);
     }
    
   }else if(diff < -1) { // 오른쪽 불균형
     if(getDiff(node.right) < 0) {
-      RRrotation();
+      RRrotation(node);
     }else {
-      RLrotation();
+      RLrotation(node);
     }
   }
-
-  console.log(nums.root);
 }
-
-
 
 // 로테이션
-function LLrotation() {
+function LLrotation(node) {
   console.log("LL Rotation"); 
+  let p = node.left;
+  node.left = null;
+  p.right = node;
+  nums.root = p;
 }
-function RRrotation() {
+function RRrotation(node) {
   console.log("RR Rotation"); 
+  let p = node.right;
+  node.right = null;
+  p.left = node;
+  nums.root = p;
 }
-function LRrotation() {
+function LRrotation(node) {
   console.log("LR Rotation"); 
+  let p = node.left;
+  let right = p.right;
+  let left = right.left;
+
+  right.left = p;
+  p.right = left;
+  p = right;
+
+  p.right = node;
+  nums.root = p;
 }
-function RLrotation() {
+function RLrotation(node) {
   console.log("RL Rotation"); 
+  let p = node.right;
+  let left = p.left;
+  let right = left.right;
+
+  left.right = p;
+  p.left = right;
+  p = left;
+
+  p.left = node;
+  nums.root = p;
 }
 
 function inOrder(node) {
