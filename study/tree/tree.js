@@ -19,9 +19,11 @@ function show() {
 
 function random() {
   let cnt = 0;
+  let max = 50;
   let arr = [];
-  while(cnt < 50) {
-    let num = Math.floor(Math.random() * 50) + 1;
+
+  while(cnt < max) {
+    let num = Math.floor(Math.random() * max) + 1;
 
     if(!arr.includes(num)) {
       arr.push(num);
@@ -60,10 +62,9 @@ function insert(num) {
           break;
         }
       }
+      balance(nums.root);
     }
   }
-  
-  balance(nums.root);
 }
 
 // 깊이 탐색
