@@ -21,16 +21,16 @@ function random() {
   let cnt = 0;
   let arr = [];
   while(cnt < 50) {
-    let num = Math.floor(Math.random() * 50);
+    let num = Math.floor(Math.random() * 50) + 1;
 
     if(!arr.includes(num)) {
-      insert(num);
       arr.push(num);
+      insert(num);
       cnt++;
     }
-    console.log(nums.root);
   }
-
+  console.log(nums.root);
+  getDiff(nums.root);
 }
 
 let depth = 0;
@@ -116,42 +116,48 @@ function balance(node) {
 function LLrotation(node) {
   console.log("LL Rotation"); 
   let p = node.left;
-  node.left = null;
+  node.left = p.right;
   p.right = node;
   nums.root = p;
 }
 function RRrotation(node) {
   console.log("RR Rotation"); 
   let p = node.right;
-  node.right = null;
+  node.right = p.left;
   p.left = node;
   nums.root = p;
 }
 function LRrotation(node) {
   console.log("LR Rotation"); 
-  let p = node.left;
-  let right = p.right;
-  let left = right.left;
+  let left = node.left;
+  left.left = RRrotation(left);
+  LLrotation(node);
+  // let p = node.left;
+  // let right = p.right;
+  // let left = right.left;
 
-  right.left = p;
-  p.right = left;
-  p = right;
+  // right.left = p;
+  // p.right = left;
+  // p = right;
 
-  p.right = node;
-  nums.root = p;
+  // p.right = node;
+  // nums.root = p;
 }
 function RLrotation(node) {
   console.log("RL Rotation"); 
-  let p = node.right;
-  let left = p.left;
-  let right = left.right;
+  let right = node.right;
+  right.right = LLrotation(right);
+  RRrotation(node);
+  // let p = node.right;
+  // let left = p.left;
+  // let right = left.right;
 
-  left.right = p;
-  p.left = right;
-  p = left;
+  // left.right = p;
+  // p.left = right;
+  // p = left;
 
-  p.left = node;
-  nums.root = p;
+  // p.left = node;
+  // nums.root = p;
 }
 
 function inOrder(node) {
