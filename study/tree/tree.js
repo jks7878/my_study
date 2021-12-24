@@ -17,10 +17,25 @@ function show() {
   return this.data;
 }
 
-let depth = 0;
+function random() {
+  let cnt = 0;
+  let arr = [];
+  while(cnt < 50) {
+    let num = Math.floor(Math.random() * 50);
 
-function insert() {
-  var data = parseInt(document.getElementsByClassName('inputNum')[0].value);
+    if(!arr.includes(num)) {
+      insert(num);
+      arr.push(num);
+      cnt++;
+    }
+    console.log(nums.root);
+  }
+
+}
+
+let depth = 0;
+function insert(num) {
+  var data = num || parseInt(document.getElementsByClassName('inputNum')[0].value);
 
   var n = new Node(data, null, null);
 
@@ -49,7 +64,6 @@ function insert() {
   }
   
   balance(nums.root);
-  console.log(nums.root);
 }
 
 // 깊이 탐색
