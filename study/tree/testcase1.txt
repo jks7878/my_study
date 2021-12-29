@@ -1,0 +1,57 @@
+20
+5
+17
+15
+2
+13
+6
+9
+8
+1
+19
+4
+16
+18
+7
+10
+12
+3
+
+
+
+  if(diff > 1) { // 왼쪽 불균형
+    diff = getDiff(node.left);
+    if(diff > 0) {
+      LLrotation(node);
+    }else {
+      LRrotation(node);
+    } 
+  }else if(diff < -1) { // 오른쪽 불균형
+    diff = getDiff(node.right);
+    if(diff < 0) {
+      RRrotation(node);
+    }else {
+      RLrotation(node);
+    }
+  }
+
+
+  if(diff > 1) { // 왼쪽 불균형
+    diff = getDiff(node.left);
+    if(diff > 0) {
+      RLrotation(node);
+    }else if(diff < 0) {
+      LRrotation(node);
+    }else {
+      LLrotation(node);
+    }
+  }else if(diff < -1) { // 오른쪽 불균형
+    diff = getDiff(node.right);
+    if(diff < 0) {
+      LRrotation(node);
+    }else if(diff > 0) {
+      RLrotation(node);
+    }else {
+      RRrotation(node);
+    }
+  }

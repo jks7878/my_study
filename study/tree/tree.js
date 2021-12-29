@@ -19,7 +19,7 @@ function show() {
 
 function random() {
   let cnt = 0;
-  let max = 50;
+  let max = 20;
   let arr = [];
 
   while(cnt < max) {
@@ -31,14 +31,12 @@ function random() {
       cnt++;
     }
   }
-  console.log(nums.root);
-  getDiff(nums.root);
 }
 
 let depth = 0;
 function insert(num) {
   var data = num || parseInt(document.getElementsByClassName('inputNum')[0].value);
-
+  console.log(data);
   var n = new Node(data, null, null);
 
   if(nums.root == null) {
@@ -62,9 +60,12 @@ function insert(num) {
           break;
         }
       }
-      balance(nums.root);
     }
   }
+
+  balance(nums.root);
+  console.log(nums.root);
+  getDiff(nums.root);
 }
 
 // 깊이 탐색
@@ -72,6 +73,7 @@ function dfs(node) {
   if(!node) return;
   // console.log(node);
   depth++;
+  if(node.left && node.right) depth--;
   dfs(node.left);
   if(node.left && node.right) depth--;
   dfs(node.right);
@@ -98,17 +100,22 @@ function balance(node) {
   let diff = getDiff(node);
 
   if(diff > 1) { // 왼쪽 불균형
-    if(getDiff(node.left) > 0) {
-      LLrotation(node);
-    }else {
-      LRrotation(node);
-    }
-   
-  }else if(diff < -1) { // 오른쪽 불균형
-    if(getDiff(node.right) < 0) {
-      RRrotation(node);
-    }else {
+    diff = getDiff(node.left);
+    if(diff > 0) {
       RLrotation(node);
+    }else if(diff < 0) {
+      LRrotation(node);
+    }else {
+      LLrotation(node);
+    }
+  }else if(diff < -1) { // 오른쪽 불균형
+    diff = getDiff(node.right);
+    if(diff < 0) {
+      LRrotation(node);
+    }else if(diff > 0) {
+      RLrotation(node);
+    }else {
+      RRrotation(node);
     }
   }
 }
@@ -131,34 +138,29 @@ function RRrotation(node) {
 function LRrotation(node) {
   console.log("LR Rotation"); 
   let left = node.left;
-  left.left = RRrotation(left);
-  LLrotation(node);
-  // let p = node.left;
-  // let right = p.right;
-  // let left = right.left;
+  let p = left.right;
+  p.left = left;
+  left.right = p.right;
+  node.left = null;
+  p.right = node;
 
-  // right.left = p;
-  // p.right = left;
-  // p = right;
+  nums.root = p;
+  // left.left = RRrotation(left);
+  // LLrotation(node);
 
-  // p.right = node;
-  // nums.root = p;
 }
 function RLrotation(node) {
   console.log("RL Rotation"); 
   let right = node.right;
-  right.right = LLrotation(right);
-  RRrotation(node);
-  // let p = node.right;
-  // let left = p.left;
-  // let right = left.right;
+  let p = right.left;
+  p.right = right;
+  right.left = p.left;
+  node.right = null;
+  p.left = node;
 
-  // left.right = p;
-  // p.left = right;
-  // p = left;
-
-  // p.left = node;
-  // nums.root = p;
+  nums.root = p;
+  // right.right = LLrotation(right);
+  // RRrotation(node);
 }
 
 function inOrder(node) {
