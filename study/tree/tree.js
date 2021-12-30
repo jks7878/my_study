@@ -5,7 +5,7 @@ function BST() {
 }
 
 var nums = new BST();
-
+var nodes = [];
 function Node(data, left, right) {
   this.data = data;
   this.left = left;
@@ -19,7 +19,7 @@ function show() {
 
 function random() {
   let cnt = 0;
-  let max = 20;
+  let max = 100;
   let arr = [];
 
   while(cnt < max) {
@@ -31,6 +31,7 @@ function random() {
       cnt++;
     }
   }
+  console.log(`diff : ${getDiff(nums.root)}`);
 }
 
 let depth = 0;
@@ -65,35 +66,36 @@ function insert(num) {
 
   balance(nums.root);
   console.log(nums.root);
-  getDiff(nums.root);
+  // getDiff(nums.root);
 }
 
 // 깊이 탐색
-function dfs(node) {
-  if(!node) return;
-  // console.log(node);
-  depth++;
-  if(node.left && node.right) depth--;
-  dfs(node.left);
-  if(node.left && node.right) depth--;
-  dfs(node.right);
-}
+// function dfs(node) {
+//   if(!node) return;
+//   // console.log(node);
+//   depth++;
+//   dfs(node.left);
+//   if(node.left && node.right) depth--;
+//   dfs(node.right);
+// }
 
 // 높이 차이 계산
-function getDiff(node) {
-  dfs(node.left); 
-  let leftDepth = depth;
-  depth = 0;
+// function getDiff(node) {
+//   dfs(node.left); 
+//   let leftDepth = depth;
+//   console.log("left : " + leftDepth);
+//   depth = 0;
 
-  dfs(node.right)
-  let rightDepth = depth;
-  depth = 0;
+//   dfs(node.right)
+//   let rightDepth = depth;
+//   console.log("right : " + rightDepth);
+//   depth = 0;
 
-  let diff = leftDepth - rightDepth;
-  console.log("DepthDiff : " + diff);
+//   let diff = leftDepth - rightDepth;
+//   console.log("DepthDiff : " + diff);
 
-  return diff;
-}
+//   return diff;
+// }
 
 // 균형 체크
 function balance(node) {
@@ -102,20 +104,16 @@ function balance(node) {
   if(diff > 1) { // 왼쪽 불균형
     diff = getDiff(node.left);
     if(diff > 0) {
-      RLrotation(node);
-    }else if(diff < 0) {
-      LRrotation(node);
-    }else {
       LLrotation(node);
+    }else {
+      LRrotation(node);
     }
   }else if(diff < -1) { // 오른쪽 불균형
     diff = getDiff(node.right);
     if(diff < 0) {
-      LRrotation(node);
-    }else if(diff > 0) {
-      RLrotation(node);
-    }else {
       RRrotation(node);
+    }else {
+      RLrotation(node);
     }
   }
 }
@@ -179,14 +177,24 @@ function preOrder(node) {
 }
 
 // 인터넷 참고 버전
-// function dfs(node) {
-//   if(!node) return -1;
-//   else return Math.max(dfs(node.left), dfs(node.right)) + 1;
-// }
+function dfs(node) {
+  if(!node) return -1;
+  else return Math.max(dfs(node.left), dfs(node.right)) + 1;
+  // else {
+  //   depth++;
+  //   console.log(`cnt : ${depth}`);
+  //   let tmp1 = dfs(node.left);
+  //   let tmp2 = dfs(node.right);
+  //   console.log(`tmp1 : ${tmp1}, tmp2 : ${tmp2}`);
+  //   return Math.max(tmp1, tmp2) + 1
+  // }
+}
 
-// function diff(node) {
-//   if(!node) return -1;
-//   else dfs(node.left) - dfs(node.right);
-// }
+function getDiff(node) {
+  if(!node) return -1;
+  else {
+    return (dfs(node.left) - dfs(node.right));
+  }
+}
 
 // 잔디 안심어져서 추가함 내 잔디 내놔
