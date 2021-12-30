@@ -65,7 +65,6 @@ function insert(num) {
   }
 
   balance(nums.root);
-  console.log(nums.root);
   // getDiff(nums.root);
 }
 
@@ -181,20 +180,22 @@ function dfs(node) {
   if(!node) return -1;
   else return Math.max(dfs(node.left), dfs(node.right)) + 1;
   // else {
-  //   depth++;
-  //   console.log(`cnt : ${depth}`);
-  //   let tmp1 = dfs(node.left);
-  //   let tmp2 = dfs(node.right);
+  //   let tmp1 = dfs(node.left) + 1;
+  //   let tmp2 = dfs(node.right) + 1;
   //   console.log(`tmp1 : ${tmp1}, tmp2 : ${tmp2}`);
-  //   return Math.max(tmp1, tmp2) + 1
+  //   return Math.max(tmp1, tmp2);
   // }
 }
 
 function getDiff(node) {
   if(!node) return -1;
-  else {
-    return (dfs(node.left) - dfs(node.right));
-  }
+  else return (dfs(node.left) - dfs(node.right));
+  // else {
+  //   let tmp1 = dfs(node.left);
+  //   let tmp2 = dfs(node.right);
+  //   console.log(`tmp1 : ${tmp1}, tmp2 : ${tmp2}`);
+  //   return (tmp1 - tmp2);
+  // }
 }
 
 // 잔디 안심어져서 추가함 내 잔디 내놔
