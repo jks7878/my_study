@@ -1,12 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Hello, Express</h1>
-</body>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Websocket Chatting</title>
+  </head>
+  <body>
+    <h1>Hudi Chat</h1>
+    <div>
+      <input
+        type="text"
+        id="nickname"
+        placeholder="닉네임"
+        style="width: 50px"
+      />
+      <input
+        type="text"
+        id="message"
+        placeholder="메세지"
+        style="width: 200px"
+      />
+      <button onclick="sendMessage()">전송</button>
+    </div>
+
+    <div id="chat-log"></div>
+  </body>
 </html>
+<script>
+    const ws = new WebSocket("ws://localhost:8001")
+    ws.onopen = () => {
+        console.log("웹소켓서버와 연결 성공");
+    };
+
+    ws.onmessage = (event) => {
+        console.log(`서버 웹소켓에게 받은 데이터: ${event.data}`);
+    }
+
+    ws.onclose = () => {
+        console.log("서버 웹소켓 연결 종료");
+    }
+
+    ws.onerror = (event) => {
+        console.log(event)
+    }
+
+    function clearMessage() {
+        document.getElementById("message").value = ""
+    }
+
+    // 메세지 전송
+    function sendMessage() {
+        const nickname = document.getElementById("nickname").value
+        const message = document.getElementById("message").value
+        const fullMessage = `${nickname}: ${message}`
+
+        ws.send(fullMessage)
+        clearMessage()
+    }    
+    
+    // 메세지 수신
+    function receiveMessage() {
+        const chat = document.createElement("div")
+        const message = document.createTextNode(event.data)
+        chat.appendChild(message)
+
+        const chatLog = document.getElementById("chat-log")
+        chatLog.appendChild(chat)
+    }
+    ws.onmessage = receiveMessage
+  </script>
